@@ -135,4 +135,17 @@ router.put('/:director_id', (req, res, next) => {
   });
 });
 
+router.delete('/:director_id', (req, res, next) => {
+  const promise = Director.findByIdAndRemove(req.params.director_id);
+
+  promise.then((director) => {
+    if (!director)
+      next({ message: 'The director was not found.', code:404 });
+
+    res.json({status: 1});
+  }).catch((err) => {
+    res.json(err);
+  });
+});
+
 module.exports = router;
